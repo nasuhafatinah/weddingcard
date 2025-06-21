@@ -28,8 +28,12 @@
     .invitation {
       width: 100%;
       height: 100%;
-      position: relative;
+      position: absolute;
       display: flex;
+      z-index: 10;
+    }
+
+    .panel, .seal, .content {
       transition: all 1.5s ease-in-out;
     }
 
@@ -39,7 +43,6 @@
       background-color: #fff;
       position: absolute;
       top: 0;
-      transition: all 1.5s ease-in-out;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -101,19 +104,18 @@
       clip-path: circle(50%);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
       cursor: pointer;
-      transition: all 1.5s ease-in-out;
     }
 
     .seal.shake {
       animation: shake 0.4s ease-in-out;
     }
 
-    .seal.attached {
+    .open .seal {
       left: 0;
       transform: translate(-45%, -50%);
     }
 
-    .content, .second-page {
+    .content {
       position: absolute;
       top: 0;
       left: 0;
@@ -123,7 +125,7 @@
       padding: 40px;
       text-align: center;
       opacity: 0;
-      transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+      transition: opacity 1s ease-in-out;
       z-index: 1;
     }
 
@@ -151,22 +153,38 @@
       opacity: 0;
     }
 
-    .open .seal {
+    .invitation.fade-out {
+      animation: fadeOutCard 1s forwards;
+    }
+
+    @keyframes fadeOutCard {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0.8); }
+    }
+
+    .second-page {
+      position: absolute;
+      top: 0;
       left: 0;
-      transform: translate(-45%, -50%);
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      transform: scale(1.2);
+      opacity: 0;
+      z-index: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 30px;
+      transition: transform 1s ease-in-out, opacity 1s ease-in-out;
     }
 
     .show-second-page {
       opacity: 1;
       transform: scale(1);
       z-index: 10;
-    }
-
-    .second-page {
-      background-image: url('bunga2.jpg');
-      background-size: cover;
-      background-position: center;
-      transform: scale(0.8);
     }
 
     .top-text, .middle-text, .bottom-text {
@@ -199,6 +217,8 @@
       font-size: 20px;
       margin-bottom: 20px;
       color: #5e412f;
+      width: 100%;
+      max-width: 300px;
     }
 
     .bottom-text p {
@@ -228,7 +248,6 @@
   <div class="invitation" id="card">
     <div class="left-panel panel"></div>
     <div class="right-panel panel"></div>
-
     <div class="seal" id="seal" onclick="openCard()">AN</div>
 
     <div class="content">
@@ -237,23 +256,23 @@
       <p><strong>14th September 2024</strong></p>
       <p>Venue: São Paulo, Brazil</p>
     </div>
+  </div>
 
-    <div class="second-page" id="secondPage">
-      <div class="top-text">TOGETHER WITH THEIR FAMILIES</div>
-      <div class="middle-text">
-        <h1>Anna & Naufal</h1>
-        <p>We invite you to join our wedding</p>
-      </div>
-      <div class="date-row">
-        <span>SEP</span>
-        <span>SAT</span>
-        <span>14</span>
-        <span>2024</span>
-      </div>
-      <div class="bottom-text">
-        <p>ONE O’CLOCK IN THE AFTERNOON<br>HOTEL TAIPING - MALAYSIA</p>
-        <div class="reception">Reception to follow</div>
-      </div>
+  <div class="second-page" id="secondPage">
+    <div class="top-text">TOGETHER WITH THEIR FAMILIES</div>
+    <div class="middle-text">
+      <h1>Anna & Naufal</h1>
+      <p>We invite you to join our wedding</p>
+    </div>
+    <div class="date-row">
+      <span>SEP</span>
+      <span>SAT</span>
+      <span>14</span>
+      <span>2024</span>
+    </div>
+    <div class="bottom-text">
+      <p>ONE O’CLOCK IN THE AFTERNOON<br>HOTEL TAIPING - MALAYSIA</p>
+      <div class="reception">Reception to follow</div>
     </div>
   </div>
 </div>
@@ -268,12 +287,12 @@
 
     setTimeout(() => {
       seal.classList.remove('shake');
-      card.classList.toggle('open');
-      seal.classList.toggle('attached');
+      card.classList.add('open');
 
       setTimeout(() => {
+        card.classList.add('fade-out');
         secondPage.classList.add('show-second-page');
-      }, 1600);
+      }, 1200);
     }, 400);
   }
 </script>
