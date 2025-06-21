@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wedding Invitation - AN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f3f0eb;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .card-wrapper {
+      width: 600px;
+      height: 400px;
+      position: relative;
+      perspective: 1200px;
+    }
+
+    .invitation {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      transition: all 1.5s ease-in-out;
+    }
+
+    .panel {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+      position: absolute;
+      top: 0;
+      transition: all 1.5s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .left-panel {
+      left: 0;
+      transform-origin: left;
+      border-right: 1px solid #ccc;
+      z-index: 2;
+      background-image: url('bunga2.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .right-panel {
+      right: 0;
+      transform-origin: right;
+      border-left: 1px solid #ccc;
+      z-index: 2;
+      background-color: #fff;
+    }
+
+    .panel::before,
+    .panel::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #a38f74;
+    }
+
+    .panel::before {
+      top: 49%;
+    }
+
+    .panel::after {
+      top: 51%;
+    }
+
+    .seal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90px;
+      height: 90px;
+      background: #800000;
+      color: white;
+      font-family: 'Great Vibes', cursive;
+      font-size: 28px;
+      font-weight: bold;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      clip-path: circle(50%);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      transition: all 1.5s ease-in-out;
+    }
+
+    .seal.shake {
+      animation: shake 0.4s ease-in-out;
+    }
+
+    .seal.attached {
+      left: 0;
+      transform: translate(-45%, -50%);
+    }
+
+    .content, .second-page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      padding: 40px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+      z-index: 1;
+    }
+
+    .content h1 {
+      font-size: 38px;
+      font-family: 'Great Vibes', cursive;
+      color: #5e412f;
+      margin-bottom: 10px;
+    }
+
+    .content p {
+      font-size: 18px;
+      color: #3d3d3d;
+    }
+
+    .open .left-panel {
+      transform: rotateY(-100deg);
+    }
+
+    .open .right-panel {
+      transform: rotateY(100deg);
+    }
+
+    .open .content {
+      opacity: 0;
+    }
+
+    .open .seal {
+      left: 0;
+      transform: translate(-45%, -50%);
+    }
+
+    .show-second-page {
+      opacity: 1;
+      transform: scale(1);
+      z-index: 10;
+    }
+
+    .second-page {
+      background-image: url('bunga2.jpg');
+      background-size: cover;
+      background-position: center;
+      transform: scale(0.8);
+    }
+
+    .top-text, .middle-text, .bottom-text {
+      text-align: center;
+      color: #5e412f;
+    }
+
+    .top-text {
+      font-size: 14px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .middle-text h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 48px;
+      margin: 0;
+    }
+
+    .middle-text p {
+      font-size: 18px;
+      letter-spacing: 1px;
+      margin-bottom: 30px;
+    }
+
+    .date-row {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #5e412f;
+    }
+
+    .bottom-text p {
+      font-size: 14px;
+      letter-spacing: 1px;
+      margin-top: 30px;
+    }
+
+    .reception {
+      font-family: 'Great Vibes', cursive;
+      font-size: 24px;
+      margin-top: 10px;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      25% { transform: translate(-50%, -50%) rotate(3deg); }
+      50% { transform: translate(-50%, -50%) rotate(-3deg); }
+      75% { transform: translate(-50%, -50%) rotate(2deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card-wrapper">
+  <div class="invitation" id="card">
+    <div class="left-panel panel"></div>
+    <div class="right-panel panel"></div>
+
+    <div class="seal" id="seal" onclick="openCard()">AN</div>
+
+    <div class="content">
+      <h1>Anna & Naufal</h1>
+      <p>You are warmly invited to our wedding</p>
+      <p><strong>14th September 2024</strong></p>
+      <p>Venue: São Paulo, Brazil</p>
+    </div>
+
+    <div class="second-page" id="secondPage">
+      <div class="top-text">TOGETHER WITH THEIR FAMILIES</div>
+      <div class="middle-text">
+        <h1>Anna & Naufal</h1>
+        <p>We invite you to join our wedding</p>
+      </div>
+      <div class="date-row">
+        <span>SEP</span>
+        <span>SAT</span>
+        <span>14</span>
+        <span>2024</span>
+      </div>
+      <div class="bottom-text">
+        <p>ONE O’CLOCK IN THE AFTERNOON<br>HOTEL TAIPING - MALAYSIA</p>
+        <div class="reception">Reception to follow</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openCard() {
+    const card = document.getElementById('card');
+    const seal = document.getElementById('seal');
+    const secondPage = document.getElementById('secondPage');
+
+    seal.classList.add('shake');
+
+    setTimeout(() => {
+      seal.classList.remove('shake');
+      card.classList.toggle('open');
+      seal.classList.toggle('attached');
+
+      setTimeout(() => {
+        secondPage.classList.add('show-second-page');
+      }, 1600);
+    }, 400);
+  }
+</script>
+
+</body>
+</html>
